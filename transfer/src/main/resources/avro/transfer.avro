@@ -3,8 +3,10 @@
 	"name": "Transaction",
 	"namespace": "com.example.schema",
 	"fields": [
+	{"name": "id", "long": "string"},
 	{"name": "pixKeySender", "type": "string"},
 	{"name": "pixKeyReceiver", "type": "string"},
-	{"name": "value", "type": "float"}
+	{"name": "value", "type": "float"},
+	{"name": "status", "type": "boolean"}
 	]
 }
