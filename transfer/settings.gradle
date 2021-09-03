@@ -4,4 +4,4 @@ pluginManagement {
         mavenCentral()
     }
 }
-rootProject.name = 'payment'
+rootProject.name = 'transfer'
