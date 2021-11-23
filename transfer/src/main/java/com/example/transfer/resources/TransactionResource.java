@@ -7,6 +7,7 @@ import com.example.transfer.exception.NotFound;
 import com.example.transfer.mapper.TransactionMapper;
 import com.example.transfer.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("api/v1/transaction")
 @RequiredArgsConstructor
+@Slf4j
 public class TransactionResource {
     private final TransactionMapper transactionMapper;
     private final TransactionService service;
@@ -22,6 +24,7 @@ public class TransactionResource {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TransactionDTOResponse saveTransaction(@RequestBody @Valid TransactionDTORequest dtoRequest) {
+        log.info("Saving new transaction ", dtoRequest);
         Transaction transactionToSave = transactionMapper.DTORequestToModel(dtoRequest);
         return transactionMapper.ModelToDTOResponse(service.save(transactionToSave));
     }
