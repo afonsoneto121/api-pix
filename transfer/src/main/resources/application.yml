@@ -1,1 +1,47 @@
-
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: root
+      password: root
+      database: transfer
+      port: 27017
+      host: localhost
+  cloud:
+    stream:
+      #function.definition: transactionCreated
+      default-binder: kafka
+      kafka:
+        bindings:
+          transactionCreated-out-0:
+            producer.configuration.key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            producer.configuration.key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+          transactionCreated-in-0:
+            producer.configuration.key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            producer.configuration.key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+        binder:
+          autoCreateTopics: true
+          brokers: localhost:9092
+          configuration:
+            value:
+              deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+              serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            key:
+              deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+              serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      bindings:
+        transactionCreated-out-0:
+          destination: streaming.pix.transaction.created
+          contentType: application/*+avro
+          producer:
+            use-native-encoding: true
+        transactionCreated-in-0:
+          destination: streaming.pix.transaction.created
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+  kafka:
+    properties:
+      schema:
+        registry:
+          url: http://localhost:8081
