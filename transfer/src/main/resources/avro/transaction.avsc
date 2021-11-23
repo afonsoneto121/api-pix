@@ -1,7 +1,7 @@
 {
 	"type": "record",
-	"name": "Transaction",
-	"namespace": "com.example.schema",
+	"name": "TransactionAvro",
+	"namespace": "com.example.transfer.schema",
 	"fields": [
 	{"name": "id", "long": "string"},
 	{"name": "pixKeySender", "type": "string"},
