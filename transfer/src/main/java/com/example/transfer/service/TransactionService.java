@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.context.annotation.Bean;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
@@ -32,7 +34,9 @@ public class TransactionService {
                 .setStatus(save.isStatus())
                 .setProcessed(save.isStatus())
                 .build();
-       streamBridge.send("transactionCreated-out-0",avro);
+        Message<TransactionAvro> message = MessageBuilder.withPayload(avro)
+                        .build();
+       streamBridge.send("transactionCreated-out-0",message);
         return save;
     }
 
@@ -40,5 +44,11 @@ public class TransactionService {
         return repository.findById(id).orElseThrow(() -> new NotFound());
     }
 
+    public void updateTransaction(String id, boolean status, boolean process ) throws NotFound {
+        Transaction transaction = findById(id);
+        transaction.setStatus(status);
+        transaction.setProcessed(process);
+        repository.save(transaction);
+    }
 
 }
