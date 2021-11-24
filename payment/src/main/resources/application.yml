@@ -1,16 +1,30 @@
-server.port: 8085
+server.port: 9000
+# DATASOURCE
 spring:
-  data:
-    mongodb:
-      authentication-database: admin
-      username: root
-      password: root
-      database: transfer
-      port: 27017
-      host: localhost
+  datasource:
+    url: jdbc:postgresql://localhost:5432/api-pix
+    driver-class-name: org.postgresql.Driver
+    username: admin
+    password: admin
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        use_sql_comments: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
   cloud:
     stream:
-      function.definition: transactionProcess
+      default:
+        producer:
+          useNativeEncoding: true
+        consumer:
+          useNativeEncoding: true
+      function.definition: transactionCreated
       default-binder: kafka
       kafka:
         binder:
@@ -23,24 +37,18 @@ spring:
             value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
             schema.registry.url: http://localhost:8081
             specific.avro.reader: true
-          default:
-            producer:
-              useNativeEncoding: true
-            consumer:
-              useNativeEncoding: true
           autoCreateTopics: true
           brokers: localhost:9092
-
       bindings:
-        transactionCreated-out-0:
+        transactionCreated-in-0:
           destination: streaming.pix.transaction.created
           contentType: application/*+avro
-          producer:
+          consumer:
             use-native-encoding: true
-        transactionProcess-in-0:
+        transactionCreated-out-0:
           destination: streaming.pix.transaction.process
           contentType: application/*+avro
-          consumer:
+          producer:
             use-native-encoding: true
   kafka:
     properties:

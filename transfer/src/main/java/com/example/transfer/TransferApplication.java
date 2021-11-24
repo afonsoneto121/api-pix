@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.function.Function;
 
 @SpringBootApplication
+
 public class TransferApplication {
 
 	public static void main(String[] args) {

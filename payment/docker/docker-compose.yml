@@ -17,7 +17,7 @@ services:
   pgadmin4:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: "afonnsoneto121@gmail.com"
+      PGADMIN_DEFAULT_EMAIL: "afonsoneto121@gmail.com"
       PGADMIN_DEFAULT_PASSWORD: "admin"
     ports:
       - "54321:80"
