@@ -22,4 +22,73 @@ A arquitetura é dividida em dois microsserviços(transfer e payment). Transfer 
   - Apache Avro
 
 
-# Em desenvolvimento
+
+## API
+
+A API REST possui dois endpoints. 
+
+```
+POST
+api/v1/transaction
+```
+
+- body
+
+  ```json
+  {
+  	"keyPixSender": "string",
+  	"value": "float",
+  	"keyPixReceiver" : "string"
+  }
+  ```
+
+  
+
+- response
+
+  - code 201
+
+    ```json
+    {
+     	"id": "string",
+    	"status": "boolean",
+     	"processed": "boolean"
+    }
+    ```
+
+    
+
+  - code 400
+
+    ``` 
+    Bad Request
+    ```
+
+```
+GET
+api/v1/transaction?id=?
+```
+
+- Params 
+
+  - id da transação
+
+- Response
+
+  - code 200
+
+    ```
+    {
+     	"id": "string",
+    	"status": "boolean",
+     	"processed": "boolean"
+    }
+    ```
+
+  - code 404
+
+    ``` 
+    Not Found
+    ```
+
+    
